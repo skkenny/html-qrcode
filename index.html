@@ -4,12 +4,20 @@
     <body>
       <div id="qr-reader" style="width: 500px"></div>
       <div id="qr-reader-results"></div>
+      <div id="qrcode-value">
+        <label style="font-family: Calibri">QRCode Value:</label>
+        <input type="text" id="txtQrcodeValue" name="txtQrcodeValue" size="62" value="" style="font-family: Calibri" /><br />
+      </div>
     </body>
-<!--     <script src="./js/html5-qrcode.min.js"></script> -->
-    <script src="./js/html5-qrcode.js"></script>
+    <!-- <script src="./js/html5-qrcode.min.js"></script> -->
+    <!-- <script src="./js/html5-qrcode.js"></script>
     <script src="./js/html5-qrcode-scanner.js"></script>
-    <script src="./js/qrcode.min.js"></script>
-<!--     <script src="./js/qrcode.js"></script> -->
+    <script src="./js/qrcode.min.js"></script> -->
+    
+    <script src="./js1/html5-qrcode.js"></script>
+    <script src="./js1/html5-qrcode-scanner.js"></script>
+    <script src="./js1/qrcode.min.js"></script>
+
     <script>
       function docReady(fn) {
         // see if DOM is already available
@@ -26,14 +34,17 @@
 
       docReady(function () {
         var resultContainer = document.getElementById("qr-reader-results");
-        var lastResult,
-          countResults = 0;
+        var lastResult, countResults = 0;
+        var qrcodeValueContainer = document.getElementById("txtQrcodeValue");
+
         function onScanSuccess(qrCodeMessage) {
-          if (qrCodeMessage !== lastResult) {
-            ++countResults;
-            lastResult = qrCodeMessage;
-            resultContainer.innerHTML += `<div>[${countResults}] - ${qrCodeMessage}</div>`;
-          }
+          // if (qrCodeMessage !== lastResult) {
+          //   ++countResults;
+          //   lastResult = qrCodeMessage;
+          //   resultContainer.innerHTML += `<div>[${countResults}] - ${qrCodeMessage}</div>`;
+          // }
+          
+          qrcodeValueContainer.value = qrCodeMessage;
         }
 
         var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {

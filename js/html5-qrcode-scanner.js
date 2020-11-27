@@ -12,12 +12,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @fileoverview
  * Complete Scanner build on top of {@link Html5Qrcode}.
  * - Decode QR Code using web cam or smartphone camera
- * 
+ *
  * @author mebjas <minhazav@gmail.com>
- * 
+ *
  * The word "QR Code" is registered trademark of DENSO WAVE INCORPORATED
  * http://www.denso-wave.com/qrcode/faqpatent-e.html
- * 
+ *
  * Note: ECMA Script is not supported by all browsers. Use minified/html5-qrcode.min.js for better
  * browser support. Alternatively the transpiled code lives in transpiled/html5-qrcode.js
  */
@@ -60,7 +60,7 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
    *          and is used to specify a variety of video or camera controls
    *          like: aspectRatio, facingMode, frameRate, etc.
    * @param {Boolean} verbose - Optional argument, if true, all logs
-   *                  would be printed to console. 
+   *                  would be printed to console.
    */
   function Html5QrcodeScanner(elementId, config, verbose) {
     _classCallCheck(this, Html5QrcodeScanner);
@@ -82,14 +82,14 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
   }
   /**
    * Renders the User Interface
-   * 
+   *
    * @param {Function} qrCodeSuccessCallback - callback on QR Code found.
    *  Example:
    *      function(qrCodeMessage) {}
    * @param {Function} qrCodeErrorCallback - callback on QR Code parse error.
    *  Example:
    *      function(errorMessage) {}
-   * 
+   *
    */
 
 
@@ -133,7 +133,7 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
     }
     /**
      * Removes the QR Code scanner.
-     * 
+     *
      * @returns Promise which succeeds if the cleanup is complete successfully,
      *  fails otherwise.
      */
@@ -228,9 +228,12 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
       header.style.padding = "5px";
       header.style.fontSize = "20px";
       header.style.borderBottom = "1px solid rgba(192, 192, 192, 0.18)";
+      header.style.backgroundColor = "PowderBlue";
+      header.style.fontFamily = "Calibri";
       dashboard.appendChild(header);
       var titleSpan = document.createElement("span");
-      titleSpan.innerHTML = "QR Code Scanner";
+      titleSpan.innerHTML = "Cargo Photo Upload"; // titleSpan.style.backgroundColor = "PowderBlue"
+
       header.appendChild(titleSpan);
       var statusSpan = document.createElement("span");
       statusSpan.id = this.__getStatusSpanId();
@@ -278,7 +281,9 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
       var requestPermissionContainer = document.createElement("div");
       requestPermissionContainer.style.textAlign = "center";
       var requestPermissionButton = document.createElement("button");
-      requestPermissionButton.innerHTML = "Request Camera Permissions";
+      requestPermissionButton.innerHTML = "Request Camera Access";
+      requestPermissionButton.style.fontFamily = "Calibri";
+      requestPermissionButton.style.fontSize = "14px";
       requestPermissionButton.addEventListener("click", function () {
         requestPermissionButton.disabled = true;
 
@@ -323,7 +328,7 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
       fileScanLabel.innerHTML = "&nbsp; Select Image";
       fileBasedScanRegion.appendChild(fileScanInput);
       fileBasedScanRegion.appendChild(fileScanLabel);
-      fileScanInput.addEventListener('change', function (e) {
+      fileScanInput.addEventListener("change", function (e) {
         if ($this.currentScanType !== Html5QrcodeScanner.SCAN_TYPE_FILE) {
           return;
         }
@@ -360,12 +365,15 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
 
       for (var i = 0; i < cameras.length; i++) {
         var camera = cameras[i];
-        var value = camera.id;
-        var name = camera.label == null ? value : camera.label;
-        var option = document.createElement('option');
-        option.value = value;
-        option.innerHTML = name;
-        cameraSelectionSelect.appendChild(option);
+
+        if (cameras.length === 1 || camera.label === "Back Camera") {
+          var value = camera.id;
+          var name = camera.label == null ? value : camera.label;
+          var option = document.createElement("option");
+          option.value = value;
+          option.innerHTML = name;
+          cameraSelectionSelect.appendChild(option);
+        }
       }
 
       cameraSelectionContainer.appendChild(cameraSelectionSelect);
@@ -380,7 +388,7 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
       cameraActionStopButton.disabled = true;
       cameraActionContainer.appendChild(cameraActionStopButton);
       scpCameraScanRegion.appendChild(cameraActionContainer);
-      cameraActionStartButton.addEventListener('click', function (_) {
+      cameraActionStartButton.addEventListener("click", function (_) {
         cameraSelectionSelect.disabled = true;
         cameraActionStartButton.disabled = true;
 
@@ -408,7 +416,7 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
           $this.__setHeaderMessage(error, Html5QrcodeScanner.STATUS_WARNING);
         });
       });
-      cameraActionStopButton.addEventListener('click', function (_) {
+      cameraActionStopButton.addEventListener("click", function (_) {
         cameraActionStopButton.disabled = true;
         $this.html5Qrcode.stop().then(function (_) {
           $this._showHideScanTypeSwapLink(true);
@@ -441,10 +449,11 @@ var Html5QrcodeScanner = /*#__PURE__*/function () {
       switchContainer.style.textAlign = "center";
       var swithToFileBasedLink = document.createElement("a");
       swithToFileBasedLink.style.textDecoration = "underline";
+      swithToFileBasedLink.style.fontFamily = "Calibri";
       swithToFileBasedLink.id = this.__getDashboardSectionSwapLinkId();
       swithToFileBasedLink.innerHTML = this.currentScanType == Html5QrcodeScanner.SCAN_TYPE_CAMERA ? TEXT_IF_CAMERA_SCAN_SELECTED : TEXT_IF_FILE_SCAN_SELECTED;
       swithToFileBasedLink.href = "#scan-using-file";
-      swithToFileBasedLink.addEventListener('click', function () {
+      swithToFileBasedLink.addEventListener("click", function () {
         if (!$this.sectionSwapAllowed) {
           if ($this.verbose) {
             console.error("Section swap called when not allowed");
